@@ -1,0 +1,12 @@
+.navbarItem {
+  /* background: lime; */
+  &:hover {
+    cursor: pointer;
+  }
+}
+.cardWithShadow {
+  box-shadow: 4px 4px 0px 0px #000000;
+  border: 2px solid #000000;
+  /* border-radius: 8px; */
+  background-color: #ffffff;
+}
