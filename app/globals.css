@@ -29,7 +29,8 @@ body {
 }
 .contentLayout {
   padding: 1rem 2rem 3rem 2rem;
-  background: #f04b4b;
+  /* background: #f04b4b; */
+  background: var(--bg-color);
   min-width: 100%;
   min-height: 100vh;
 }
@@ -45,4 +46,8 @@ body {
   border: 2px solid var(--text-color);
   /* border-radius: 8px; */
   background-color: var(--bg-color);
+}
+
+.shadow {
+  box-shadow: 4px 4px 0px 0px var(--text-color);
 }
