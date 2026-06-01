@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./navbar.module.css";
 import { token } from "@/app/theme";
 import Link from "next/link";
@@ -16,10 +15,13 @@ const Navbar = () => {
           <Link href={"/"}>Home</Link>
         </div>
         <div className={styles.navbarItem}>
-          <Link href={"/"}>Scan</Link>
+          <Link href={"/scan"}>Scan</Link>
         </div>
         <div className={styles.navbarItem}>
-          <Link href={"/"}>Stats</Link>
+          <Link href={"/stats"}>Stats</Link>
+        </div>
+        <div className={styles.navbarItem}>
+          <Link href={"/friends"}>Friends</Link>
         </div>
       </div>
     </div>
