@@ -4,7 +4,10 @@ import { withDelay } from "@/app/utils/common";
 import Image from "next/image";
 import { useState } from "react";
 
-const ScanForm = () => {
+interface ScanFormProps {
+  handleFileUpload: (file: File) => Promise<void>;
+}
+const ScanForm = ({ handleFileUpload }: ScanFormProps) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [inputFile, setInputFile] = useState<File | null>();
   null;
@@ -19,12 +22,16 @@ const ScanForm = () => {
     }
   };
 
+  const handleConfirmUpload = () => {
+    if (inputFile) {
+      handleFileUpload(inputFile);
+    }
+  };
+
   const handleReplaceImage = withDelay(() => {
     setInputFile(null);
     setImagePreview(null);
   });
-
-  const handleConfirmImage = () => {};
 
   return (
     <div className="flexCenter flex-col gap-4">
@@ -40,8 +47,8 @@ const ScanForm = () => {
       {inputFile ? (
         <div className="flexCenter gap-4">
           <button
-            className="standardButton  !bg-lime-200"
-            onClick={handleConfirmImage}
+            className="standardButton  bg-lime-200!"
+            onClick={handleConfirmUpload}
           >
             Confirm
           </button>
