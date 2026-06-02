@@ -1,7 +1,7 @@
 import CommonLoadingScreen from "../components/loading/loading";
 
-const loading = () => {
+const StatsLoadingScreen = () => {
   return <CommonLoadingScreen type="spinner" />;
 };
 
-export default loading;
+export default StatsLoadingScreen;
