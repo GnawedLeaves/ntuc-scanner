@@ -1,5 +1,6 @@
 "use client";
 
+import { withDelay } from "@/app/utils/common";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -18,10 +19,10 @@ const ScanForm = () => {
     }
   };
 
-  const handleReplaceImage = () => {
+  const handleReplaceImage = withDelay(() => {
     setInputFile(null);
     setImagePreview(null);
-  };
+  });
 
   const handleConfirmImage = () => {};
 
@@ -33,26 +34,24 @@ const ScanForm = () => {
           width={200}
           height={200}
           src={imagePreview}
+          className="standardBorder"
         />
       )}
       {inputFile ? (
         <div className="flexCenter gap-4">
           <button
-            className="standardButton standardShadow !bg-lime-200"
+            className="standardButton  !bg-lime-200"
             onClick={handleConfirmImage}
           >
             Confirm
           </button>
-          <button
-            className="standardButton standardShadow"
-            onClick={handleReplaceImage}
-          >
+          <button className="standardButton " onClick={handleReplaceImage}>
             Replace
           </button>
         </div>
       ) : (
         <div>
-          <label className="standardButton standardShadow cursor-pointer inline-block">
+          <label className="standardButton  cursor-pointer inline-block">
             Add file
             <input
               type="file"

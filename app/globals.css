@@ -34,16 +34,12 @@ body {
   min-height: 100vh;
 }
 
-.card-shadow {
-  box-shadow: 4px 4px 0px 0px var(--text-color);
-  border: 2px solid var(--border-color);
-  background-color: var(--bg-color);
-  color: var(--text-color);
-}
 .cardWithShadow {
-  box-shadow: 4px 4px 0px 0px var(--text-color);
+  box-shadow: 2px 2px 0px 0px var(--text-color);
   border: 2px solid var(--text-color);
   background-color: var(--bg-color);
+  border-radius: 8px;
+  padding: 1rem;
 }
 
 .standardButton {

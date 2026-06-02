@@ -1,5 +1,6 @@
 import { createClient } from "../utils/supabase/server";
 import { cookies } from "next/headers";
+import CurrentStatsComponent from "./components/currentStats/currentStats";
 
 const page = async () => {
   const cookieStore = await cookies();
@@ -11,12 +12,7 @@ const page = async () => {
 
   return (
     <div className="contentLayout">
-      Stats page
-      <ul>
-        {todos?.map((todo) => (
-          <li key={todo.id}>{todo.description}</li>
-        ))}
-      </ul>
+      <CurrentStatsComponent />
     </div>
   );
 };

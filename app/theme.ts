@@ -4,6 +4,7 @@ interface ThemeToken {
     textColor: string;
     borderColor: string;
     primaryColor: string;
+    lighterBackground: string;
   };
   dark: {
     background: string;
@@ -17,6 +18,7 @@ export const token: ThemeToken = {
     textColor: "#070707",
     borderColor: "#070707",
     primaryColor: "#FFD913",
+    lighterBackground: "#363636",
   },
   dark: {
     background: "#FFF2E9",
