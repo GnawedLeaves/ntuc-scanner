@@ -2,7 +2,16 @@
 
 import { createClient } from "@/app/utils/supabase/server";
 import { cookies } from "next/headers";
+export interface ProcessScanResponse {
+  success: boolean;
+  data: ScanData;
+}
 
+export interface ScanData {
+  text: string;
+  mimeType: string;
+  pagesCount: number;
+}
 export async function handleFileUpload(file: File) {
   if (!file) return;
 
@@ -47,7 +56,7 @@ export async function handleFileUpload(file: File) {
       throw new Error(`Edge function failed: ${functionError.message}`);
     }
     console.log("✅ Edge Function Success Data:", functionData);
-    return functionData;
+    return functionData as ProcessScanResponse;
   } catch (err: any) {
     console.error(err);
   }

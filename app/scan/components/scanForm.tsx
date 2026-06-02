@@ -1,15 +1,18 @@
 "use client";
 
 import { withDelay } from "@/app/utils/common";
+import { ProcessScanResponse } from "@/app/utils/supabase/scanAction";
 import Image from "next/image";
 import { useState } from "react";
 
 interface ScanFormProps {
-  handleFileUpload: (file: File) => Promise<void>;
+  handleFileUpload: (file: File) => Promise<ProcessScanResponse>;
 }
 const ScanForm = ({ handleFileUpload }: ScanFormProps) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [inputFile, setInputFile] = useState<File | null>();
+  const [result, setResult] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   null;
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -22,15 +25,20 @@ const ScanForm = ({ handleFileUpload }: ScanFormProps) => {
     }
   };
 
-  const handleConfirmUpload = () => {
+  const handleConfirmUpload = withDelay(async () => {
     if (inputFile) {
-      handleFileUpload(inputFile);
+      setLoading(true);
+      const data = await handleFileUpload(inputFile);
+      const textFromData = data.data.text;
+      setResult(textFromData);
+      setLoading(false);
     }
-  };
+  });
 
   const handleReplaceImage = withDelay(() => {
     setInputFile(null);
     setImagePreview(null);
+    setResult("");
   });
 
   return (
@@ -44,31 +52,37 @@ const ScanForm = ({ handleFileUpload }: ScanFormProps) => {
           className="standardBorder"
         />
       )}
-      {inputFile ? (
+
+      {inputFile && !loading ? (
         <div className="flexCenter gap-4">
           <button
             className="standardButton  bg-lime-200!"
             onClick={handleConfirmUpload}
           >
-            Confirm
+            Scan
           </button>
           <button className="standardButton " onClick={handleReplaceImage}>
             Replace
           </button>
         </div>
       ) : (
-        <div>
-          <label className="standardButton  cursor-pointer inline-block">
-            Add file
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              className="hidden"
-            />
-          </label>
-        </div>
+        !loading && (
+          <div>
+            <label className="standardButton  cursor-pointer inline-block">
+              Add file
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+            </label>
+          </div>
+        )
       )}
+      {loading && "Scanning...."}
+      <br />
+      {result && "Results: " + result}
     </div>
   );
 };
