@@ -1,4 +1,4 @@
-export const withDelay = (callback: () => void, ms: number = 300) => {
+export const withDelay = (callback: (arg: any) => void, ms: number = 300) => {
   return () => {
     setTimeout(callback, ms);
   };

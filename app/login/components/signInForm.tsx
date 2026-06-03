@@ -3,8 +3,10 @@
 import { AuthError } from "@supabase/supabase-js";
 import { useState } from "react";
 import styles from "./styles.module.css";
-import { signUpAction } from "@/app/utils/login/authUtils";
-import { withDelay } from "@/app/utils/common";
+import {
+  loginActionWithEmail,
+  signUpAction,
+} from "@/app/utils/login/authUtils";
 
 interface LoginFormError {
   message: string;
@@ -12,18 +14,21 @@ interface LoginFormError {
   status?: number;
 }
 
-const SignUpForm = ({}: {}) => {
+const SignInForm = ({}: {}) => {
   const [inputEmail, setInputEmail] = useState<string>("");
   const [inputPassword, setInputPassword] = useState<string>("");
   const [error, setError] = useState<LoginFormError | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.SubmitEvent) => {
-    console.log("signing up");
+    console.log("signing in");
     e.preventDefault();
     setError(null);
 
-    const { data, error } = await signUpAction(inputEmail, inputPassword);
+    const { data, error } = await loginActionWithEmail(
+      inputEmail,
+      inputPassword,
+    );
     if (error) {
       setError(error);
       setSuccess(false);
@@ -33,11 +38,11 @@ const SignUpForm = ({}: {}) => {
       setInputPassword("");
     }
 
-    console.log({ data, error });
+    console.log("signing in", { data, error });
   };
   return (
     <div>
-      Sign up
+      Sign In
       <form onSubmit={handleSubmit}>
         <div className="flex gap-5 flex-col">
           <input
@@ -55,9 +60,9 @@ const SignUpForm = ({}: {}) => {
             placeholder="Password"
           />
           {error && <div style={{ color: "red" }}>{error.message}</div>}
-          {success && <div style={{ color: "green" }}>Sign up successful!</div>}
+          {success && <div style={{ color: "green" }}>Sign in successful!</div>}
           <button className="standardButton bg-amber-400!" type="submit">
-            Sign Up
+            Sign In
           </button>
         </div>
       </form>
@@ -65,4 +70,4 @@ const SignUpForm = ({}: {}) => {
   );
 };
 
-export default SignUpForm;
+export default SignInForm;

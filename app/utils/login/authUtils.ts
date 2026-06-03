@@ -29,3 +29,58 @@ export const signUpAction = async (email: string, password: string) => {
 
   return { data, error: null };
 };
+
+export const loginActionWithEmail = async (email: string, password: string) => {
+  const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+  // then login info will be store in cookies
+
+  if (error) {
+    return {
+      data: null,
+      error: { message: error.message, code: error.code, status: error.status },
+    };
+  }
+
+  console.log("login data", { data });
+  return {
+    data,
+    error: null,
+  };
+};
+
+export const getUserContext = async () => {
+  const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+
+  if (error || !user) {
+    return {
+      user: null,
+      isLoggedIn: false,
+    };
+  }
+
+  console.log("user data", { user });
+
+  return {
+    user,
+    isLoggedIn: true,
+  };
+};
+
+export const signOutAction = async () => {
+  const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+  console.log("signing out");
+  await supabase.auth.signOut();
+  // await supabase.auth.signOut({ scope: 'local' })
+};
