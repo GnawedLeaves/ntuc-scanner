@@ -5,6 +5,7 @@ import Navbar from "./components/navbar/navbar";
 
 import { Josefin_Sans } from "next/font/google";
 import { token } from "./theme";
+import { Providers } from "./providers";
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
   weight: ["400", "600", "700"],
@@ -44,8 +45,10 @@ export default function RootLayout({
         className="min-h-full flex flex-col"
         style={cssVariables as React.CSSProperties}
       >
-        <Navbar />
-        {children}
+        <Providers>
+          <Navbar />
+          {children}
+        </Providers>
       </body>
     </html>
   );

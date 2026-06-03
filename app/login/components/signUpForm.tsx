@@ -2,9 +2,11 @@
 
 import { AuthError } from "@supabase/supabase-js";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import styles from "./styles.module.css";
 import { signUpAction, signUpAsGuestAction } from "@/app/utils/login/authUtils";
 import { withDelay } from "@/app/utils/common";
+import { useAuth } from "@/app/context/AuthContext";
 
 interface LoginFormError {
   message: string;
@@ -17,6 +19,8 @@ const SignUpForm = ({}: {}) => {
   const [inputPassword, setInputPassword] = useState<string>("");
   const [error, setError] = useState<LoginFormError | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
+  const router = useRouter();
+  const { refreshUser } = useAuth();
 
   const handleSubmit = async (e: React.SubmitEvent) => {
     console.log("signing up");
@@ -31,10 +35,25 @@ const SignUpForm = ({}: {}) => {
       setSuccess(true);
       setInputEmail("");
       setInputPassword("");
+      await refreshUser();
+      // Optionally redirect to a dashboard/home page
+      router.push("/");
     }
 
     console.log({ data, error });
   };
+
+  const handleGuestSignUp = withDelay(async () => {
+    const { data, error } = await signUpAsGuestAction();
+    if (error) {
+      setError(error);
+    } else {
+      setSuccess(true);
+      await refreshUser();
+      router.push("/");
+    }
+  });
+
   return (
     <div>
       Sign up
@@ -61,7 +80,8 @@ const SignUpForm = ({}: {}) => {
           </button>
           <button
             className="standardButton bg-amber-400!"
-            onClick={signUpAsGuestAction}
+            type="button"
+            onClick={handleGuestSignUp}
           >
             Continue as guest
           </button>
