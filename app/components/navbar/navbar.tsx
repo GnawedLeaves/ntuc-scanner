@@ -12,9 +12,6 @@ const Navbar = () => {
         }}
       >
         <div className={styles.navbarItem}>
-          <Link href={"/login"}>Login</Link>
-        </div>
-        <div className={styles.navbarItem}>
           <Link href={"/"}>Home</Link>
         </div>
         <div className={styles.navbarItem}>
