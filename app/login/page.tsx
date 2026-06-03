@@ -13,7 +13,10 @@ const LoginPage = async () => {
 
   return (
     <div className="contentLayout">
-      LOGGED IN USER DETAILS: {user?.email}
+      LOGGED IN USER ID:
+      <br />
+      {user?.id}
+      <br />
       <div>
         <SignUpForm />
       </div>

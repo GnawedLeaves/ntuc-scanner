@@ -84,3 +84,20 @@ export const signOutAction = async () => {
   await supabase.auth.signOut();
   // await supabase.auth.signOut({ scope: 'local' })
 };
+
+export const signUpAsGuestAction = async () => {
+  const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+  const { data, error } = await supabase.auth.signInAnonymously();
+  if (error) {
+    console.error("Error signing in as guest");
+    return {
+      data: null,
+      error: { message: error.message, code: error.code, status: error.status },
+    };
+  }
+  return {
+    data,
+    error: null,
+  };
+};

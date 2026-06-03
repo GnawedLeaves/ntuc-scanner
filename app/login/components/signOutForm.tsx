@@ -7,10 +7,10 @@ const SignOutForm = () => {
     signOutAction();
   });
   return (
-    <div>
+    <div className="w-full bg-amber-950 flex flex-col">
       <button
         onClick={handleSignOut}
-        className="standardButton bg-amber-400! "
+        className="standardButton bg-red-400! "
         type="submit"
       >
         Sign Out

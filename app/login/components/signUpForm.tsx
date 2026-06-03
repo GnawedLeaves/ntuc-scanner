@@ -3,7 +3,7 @@
 import { AuthError } from "@supabase/supabase-js";
 import { useState } from "react";
 import styles from "./styles.module.css";
-import { signUpAction } from "@/app/utils/login/authUtils";
+import { signUpAction, signUpAsGuestAction } from "@/app/utils/login/authUtils";
 import { withDelay } from "@/app/utils/common";
 
 interface LoginFormError {
@@ -58,6 +58,12 @@ const SignUpForm = ({}: {}) => {
           {success && <div style={{ color: "green" }}>Sign up successful!</div>}
           <button className="standardButton bg-amber-400!" type="submit">
             Sign Up
+          </button>
+          <button
+            className="standardButton bg-amber-400!"
+            onClick={signUpAsGuestAction}
+          >
+            Continue as guest
           </button>
         </div>
       </form>
