@@ -1,9 +1,9 @@
 "use client";
 
-import { withDelay } from "@/app/utils/common";
+import { parseTautaScan, withDelay } from "@/app/utils/common";
 import { ProcessScanResponse } from "@/app/utils/supabase/scanAction";
 import Image from "next/image";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 interface ScanFormProps {
   handleFileUpload: (file: File) => Promise<ProcessScanResponse | undefined>;
@@ -43,6 +43,13 @@ const ScanForm = ({ handleFileUpload }: ScanFormProps) => {
     setResult("");
   });
 
+  const processedResult = useMemo(() => {
+    if (result) {
+      return parseTautaScan(result);
+    }
+  }, [result]);
+
+  console.log({ processedResult, result });
   return (
     <div className="flexCenter flex-col gap-4">
       {imagePreview && (
@@ -82,7 +89,7 @@ const ScanForm = ({ handleFileUpload }: ScanFormProps) => {
           </div>
         )
       )}
-      {loading && "Scanning...."}
+      {loading && <span className="loading loading-spinner loading-md"></span>}
       <br />
       {result && "Results: " + result}
     </div>
