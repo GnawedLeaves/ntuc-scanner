@@ -7,6 +7,7 @@ import {
   loginActionWithEmail,
   signUpAction,
 } from "@/app/utils/login/authUtils";
+import { useRouter } from "next/navigation";
 
 interface LoginFormError {
   message: string;
@@ -19,6 +20,7 @@ const SignInForm = ({}: {}) => {
   const [inputPassword, setInputPassword] = useState<string>("");
   const [error, setError] = useState<LoginFormError | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.SubmitEvent) => {
     console.log("signing in");
@@ -36,8 +38,8 @@ const SignInForm = ({}: {}) => {
       setSuccess(true);
       setInputEmail("");
       setInputPassword("");
+      router.push("/");
     }
-
     console.log("signing in", { data, error });
   };
   return (
