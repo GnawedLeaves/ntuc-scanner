@@ -1,4 +1,4 @@
-import { User, AuthError, Session } from "@supabase/supabase-js";
+import { AuthError, Session, User } from "@supabase/supabase-js";
 
 export interface UserSignUpNewEmailProps {
   email: string;
@@ -23,6 +23,7 @@ export interface UserProfile {
   bio?: string;
   created_at: string;
   updated_at: string;
+  sex?: string;
 }
 
 //main User type
@@ -31,8 +32,8 @@ export interface ExtendedUser extends User {
   isLoggedIn: boolean;
 }
 
-export interface LoggedOutUser {
-  isLoggedIn: false;
-}
+// export interface LoggedOutUser {
+//   isLoggedIn: false;
+// }
 
-export type UserContext = ExtendedUser | LoggedOutUser;
+export type UserContext = ExtendedUser | null;

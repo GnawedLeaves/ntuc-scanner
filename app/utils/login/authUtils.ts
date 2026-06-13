@@ -1,14 +1,11 @@
 "use server";
+import {
+  UserContext,
+  UserProfile
+} from "@/app/types/authTypes";
+import { User } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 import { createClient } from "../supabase/server";
-import { AuthError, Session, User } from "@supabase/supabase-js";
-import {
-  ExtendedUser,
-  UserContext,
-  UserProfile,
-  UserSignUpNewEmailProps,
-  UserSignUpNewEmailRes,
-} from "@/app/types/authTypes";
 
 export const signUpAction = async ({
   email,
@@ -94,12 +91,11 @@ export const getUserContext = async (): Promise<UserContext> => {
   const {
     data: { user },
     error,
+
   } = await supabase.auth.getUser();
 
   if (error || !user) {
-    return {
-      isLoggedIn: false,
-    };
+    return null;
   }
 
   const profile = await getUserProfile(user);

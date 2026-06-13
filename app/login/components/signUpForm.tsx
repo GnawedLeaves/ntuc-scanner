@@ -1,12 +1,11 @@
 "use client";
 
-import { AuthError } from "@supabase/supabase-js";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import styles from "./styles.module.css";
-import { signUpAction, signUpAsGuestAction } from "@/app/utils/login/authUtils";
-import { withDelay } from "@/app/utils/common";
 import { useAuth } from "@/app/context/AuthContext";
+import { withDelay } from "@/app/utils/common";
+import { signUpAction, signUpAsGuestAction } from "@/app/utils/login/authUtils";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import styles from "./styles.module.css";
 
 interface LoginFormError {
   message: string;
@@ -14,10 +13,12 @@ interface LoginFormError {
   status?: number;
 }
 
-const SignUpForm = ({}: {}) => {
+const SignUpForm = ({ }: {}) => {
   const [inputEmail, setInputEmail] = useState<string>("");
   const [inputUsername, setInputUsername] = useState<string>("");
   const [inputPassword, setInputPassword] = useState<string>("");
+  const [inputSex, setInputSex] = useState<string>("");
+
   const [error, setError] = useState<LoginFormError | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const router = useRouter();
@@ -72,6 +73,7 @@ const SignUpForm = ({}: {}) => {
             value={inputEmail}
             onChange={(e) => setInputEmail(e.target.value)}
             placeholder="Email"
+            required
           />
           <input
             className={styles.signUpFormField}
@@ -79,6 +81,17 @@ const SignUpForm = ({}: {}) => {
             value={inputUsername}
             onChange={(e) => setInputUsername(e.target.value)}
             placeholder="User name"
+            required
+
+          />
+          <input
+            className={styles.signUpFormField}
+            type="text"
+            value={inputSex}
+            onChange={(e) => setInputSex(e.target.value)}
+            placeholder="Sex"
+            required
+
           />
           <input
             className={styles.signUpFormField}
@@ -86,6 +99,8 @@ const SignUpForm = ({}: {}) => {
             value={inputPassword}
             onChange={(e) => setInputPassword(e.target.value)}
             placeholder="Password"
+            required
+
           />
           {error && <div style={{ color: "red" }}>{error.message}</div>}
           {success && <div style={{ color: "green" }}>Sign up successful!</div>}
