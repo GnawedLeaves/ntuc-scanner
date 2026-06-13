@@ -16,6 +16,7 @@ interface LoginFormError {
 
 const SignUpForm = ({}: {}) => {
   const [inputEmail, setInputEmail] = useState<string>("");
+  const [inputUsername, setInputUsername] = useState<string>("");
   const [inputPassword, setInputPassword] = useState<string>("");
   const [error, setError] = useState<LoginFormError | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
@@ -23,11 +24,20 @@ const SignUpForm = ({}: {}) => {
   const { refreshUser } = useAuth();
 
   const handleSubmit = async (e: React.SubmitEvent) => {
-    console.log("signing up");
     e.preventDefault();
     setError(null);
+    if (inputUsername === "") {
+      setError({
+        message: "User name cannot be blank",
+      });
+      return;
+    }
 
-    const { data, error } = await signUpAction(inputEmail, inputPassword);
+    const { data, error } = await signUpAction({
+      email: inputEmail,
+      password: inputPassword,
+      username: inputUsername,
+    });
     if (error) {
       setError(error);
       setSuccess(false);
@@ -36,11 +46,8 @@ const SignUpForm = ({}: {}) => {
       setInputEmail("");
       setInputPassword("");
       await refreshUser();
-      // Optionally redirect to a dashboard/home page
       router.push("/");
     }
-
-    console.log({ data, error });
   };
 
   const handleGuestSignUp = withDelay(async () => {
@@ -65,6 +72,13 @@ const SignUpForm = ({}: {}) => {
             value={inputEmail}
             onChange={(e) => setInputEmail(e.target.value)}
             placeholder="Email"
+          />
+          <input
+            className={styles.signUpFormField}
+            type="text"
+            value={inputUsername}
+            onChange={(e) => setInputUsername(e.target.value)}
+            placeholder="User name"
           />
           <input
             className={styles.signUpFormField}

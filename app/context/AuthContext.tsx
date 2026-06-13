@@ -3,9 +3,10 @@
 import { User } from "@supabase/supabase-js";
 import { createContext, useContext, useEffect, useState } from "react";
 import { getUserContext } from "@/app/utils/login/authUtils";
+import { ExtendedUser, UserContext } from "../types/authTypes";
 
 interface AuthContextType {
-  user: User | null;
+  user: UserContext;
   isLoggedIn: boolean;
   isLoading: boolean;
   isAnonymous: boolean;
@@ -15,7 +16,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserContext>();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isAnonymous, setIsAnonymous] = useState(false);
@@ -25,13 +26,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const initializeAuth = async () => {
       setIsLoading(true);
       try {
-        const { user, isLoggedIn } = await getUserContext();
+        const user = await getUserContext();
         setUser(user);
         setIsLoggedIn(isLoggedIn);
         setIsAnonymous(user?.is_anonymous ?? false);
       } catch (error) {
         console.error("Error initializing auth:", error);
-        setUser(null);
+        setUser(undefined);
         setIsLoggedIn(false);
       } finally {
         setIsLoading(false);
@@ -43,7 +44,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const refreshUser = async () => {
     try {
-      const { user, isLoggedIn } = await getUserContext();
+      const user = await getUserContext();
       setUser(user);
       setIsLoggedIn(isLoggedIn);
       setIsAnonymous(user?.is_anonymous ?? false);

@@ -7,7 +7,13 @@ const ProfileBanner = () => {
   useEffect(() => {
     refreshUser();
   }, []);
-  return <div>User: {user?.id}</div>;
+  console.log({ user });
+  return (
+    <div>
+      User: {user?.id} <br />
+      Username: {user?.profile?.username}
+    </div>
+  );
 };
 
 export default ProfileBanner;
